@@ -1,62 +1,74 @@
-require './initializer'
-require 'sinatra'
-require 'sinatra/reloader' if development?
-require 'active_record'
-require 'webdriver'
-require 'bot/slack_bot'
+require 'bundler'
+Bundler.require
 
-ActiveRecord::Base.establish_connection(
-  "adapter" => "sqlite3",
-  "database" => "./amazon_botify.db"
-)
+module AmazonBotify
+  class Application < Sinatra::Base
 
-before do
-  @bot = Bot::SlackBot.instance
-end
+    configure do
+      register Sinatra::ActiveRecordExtension
+      set :database, {adapter: "sqlite3", database: "db/amazon_botify_developmemt.db"}
+    end
 
-# order
-class Order < ActiveRecord::Base
+    configure :development do
+      register Sinatra::Reloader
+    end
 
-end
+    before do
+      @bot = Bot::SlackBot.instance
+    end
 
-## list orders
-get '/orders' do
-end
+    # order
+    class Order < ActiveRecord::Base
 
-## execute order
-post '/orders' do
-  @bot.start_order(product)
-  amazon_product_id = params[:amazon_product_id]
-  WebDriver.instance.order(amazon_product_id, self.class.production?)
-  @bot.succeed_to_purchase(ss)
-end
+    end
 
-## cancel order
-delete '/orders/:id' do
+     ## list orders
+    get '/orders' do
+    end
 
-end
+    ## execute order
+    post '/orders' do
+      product = Product.find_by(name: params[:name])
+      begin
+        @bot.start_order(product)
+        WebDriver.instance.order(product.amazon_product_id, self.class.production?)
+        @bot.succeed_to_purchase(product)
+        status 200
+        body ''
+      rescue => e
+        @bot.failed_to_purchase(product, e.message)
+        status 500
+      end
+    end
 
-# products
-class Product < ActiveRecord::Base
+    ## cancel order
+    delete '/orders/:id' do
 
-end
+    end
 
-## list products
-get '/products' do
+    # products
+    class Product < ActiveRecord::Base
 
-end
+    end
 
-## add product
-post '/products' do
+    ## list products
+    get '/products' do
 
-end
+    end
 
-## edit product
-put '/products/:id' do
+    ## add product
+    post '/products' do
+      Product.create!(params[:name], params[:url])
+    end
 
-end
+    ## edit product
+    put '/products/:id' do
 
-## delete product
-delete '/products/:id' do
+    end
 
+    ## delete product
+    delete '/products/:id' do
+
+    end
+  end
 end

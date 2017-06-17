@@ -1,5 +1,3 @@
-require 'slack-ruby-client'
-require 'bot/bot_base'
 require 'pry'
 Slack.configure do |config|
   config.token = ENV['AMAZON_BOT_SLACK_TOKEN']
@@ -14,22 +12,27 @@ module Bot
     end
 
     def start_order(product, *args)
-      client.chat_postMessage(channel: '#general', text: 'xxxを購入します', as_user: true)
+      post_message("#{product.name}を購入します。")
     end
 
-    def succeed_to_purchase(*args)
+    def succeed_to_purchase(product, *args)
       client.files_upload(
           channels: '#general',
           as_user: true,
           file: Faraday::UploadIO.new("#{Dir.pwd}/order.png", 'image/png'),
-          title: 'My Avatar',
-          filename: 'avatar.jpg',
-          initial_comment: 'xxxを購入しました。'
+          title: 'order screenshot',
+          filename: 'order.jpg',
+          initial_comment: "#{product.name}を購入しました。"
       )
     end
 
-    def failed_to_purchase
-      raise "Please Define #failed_to_purchase"
+    def failed_to_purchase(product, *args)
+      post_message("#{product.name}を購入に失敗しました。 #{args[0]}")
+    end
+
+    private
+    def post_message(message)
+      client.chat_postMessage(channel: '#general', text: message)
     end
   end
 end

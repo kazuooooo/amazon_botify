@@ -1,11 +1,9 @@
-require 'selenium-webdriver'
-require 'pry'
 class WebDriver
   include Singleton
 
-  AMAZON_URL = 'https://www.amazon.com/'
-  PRODUCT_URL = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
-  DRIVER     = :chrome
+  AMAZON_URL      = 'https://www.amazon.com/'
+  PRODUCT_URL     = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
+  DRIVER          = :chrome
   SCREENSHOT_NAME = 'order.png'
 
   attr_accessor :email, :password, :driver
@@ -18,7 +16,6 @@ class WebDriver
 
   def order(amazon_product_id, exec_order)
     begin
-
       go_to(AMAZON_URL)
 
       click('nav-link-accountList')
@@ -31,9 +28,10 @@ class WebDriver
       login
 
       click('placeYourOrder1') if exec_order
+
       return screenshot
-    rescue => e
-      return e.message
+    ensure
+      quit
     end
   end
 
@@ -64,4 +62,7 @@ class WebDriver
     driver.save_screenshot(SCREENSHOT_NAME)
   end
 
+  def quit
+    driver.quit
+  end
 end

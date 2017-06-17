@@ -1,5 +1,3 @@
-require 'singleton'
-
 module Bot
   class BotBase
     include Singleton
