@@ -1,0 +1,20 @@
+default: &default
+  adapter: sqlite3
+  encoding: utf8
+  pool: 5
+  username: root
+
+
+development:
+  <<: *default
+  host: localhost
+  database: amazon_botify_development
+
+test:
+  <<: *default
+  database: amazon_botify_test
+
+
+production:
+  <<: *default
+  database: amazon_botify_production
