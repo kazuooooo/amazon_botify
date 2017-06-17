@@ -3,6 +3,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'active_record'
 require 'webdriver'
+require 'bot/slack_bot'
 
 ActiveRecord::Base.establish_connection(
   "adapter" => "sqlite3",
@@ -16,8 +17,9 @@ end
 
 ## list orders
 get '/orders' do
-  WebDriver.instance.order(4388062367, self.class.production?)
-  
+  ss = WebDriver.instance.order(4388062367, self.class.production?)
+  Bot::SlackBot.instance.succeed_to_purchase(ss)
+  "so good"
 end
 
 ## execute order

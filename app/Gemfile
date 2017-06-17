@@ -8,6 +8,7 @@ gem "rake"
 gem "sinatra-activerecord"
 gem "sqlite3"
 gem "selenium-webdriver"
+gem "slack-ruby-client"
 
 group :development do
   gem "pry"

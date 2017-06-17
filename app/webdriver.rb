@@ -6,6 +6,7 @@ class WebDriver
   AMAZON_URL = 'https://www.amazon.com/'
   PRODUCT_URL = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
   DRIVER     = :chrome
+  SCREENSHOT_NAME = 'order.png'
 
   attr_accessor :email, :password, :driver
 
@@ -19,10 +20,10 @@ class WebDriver
     begin
 
       go_to(AMAZON_URL)
+
       click('nav-link-accountList')
       login
-
-
+      
       go_to(PRODUCT_URL + amazon_product_id.to_s)
       click('add-to-cart-button')
       click('hlb-ptc-btn-native')
@@ -60,57 +61,7 @@ class WebDriver
   end
 
   def screenshot
-    driver.save_screenshot('order.png')
+    driver.save_screenshot(SCREENSHOT_NAME)
   end
 
 end
-#
-# func login(page *agouti.Page) {
-#   page.Find('#ap_email').Fill(EMAIL)
-#   page.Find('#ap_password').Fill(PASSWORD)
-# }
-# func (c WebDriver) Order(productId string) string {
-#   // Declare Web Driver
-#   agoutiDriver := agouti.PhantomJS()
-#
-#   agoutiDriver.Start()
-#   defer agoutiDriver.Stop() // defer 延ばす、延期する
-#     page, _ := agoutiDriver.NewPage()
-#
-#     // Login
-#   // go to amazon top page
-#   if err := page.Navigate('https://www.amazon.com/'); err != nil {
-#       log.Fatalf('Navigate Error:%v', err)
-#   }
-#
-#   // click sign in
-#   if err := page.Find('#nav-link-accountList').Click(); err != nil {
-#       log.Fatalf('Find Error:%v', err)
-#   }
-#   // input form
-#   login(page)
-#
-#   // submit
-#   page.Find('#signInSubmit').Click()
-#
-#   // Purchase
-#   // go to product page
-#   revel.INFO.Println('https://www.amazon.co.jp/dp/' + productId)
-#   page.Navigate('https://www.amazon.co.jp/dp/' + productId)
-#   page.Screenshot('b')
-#
-#   // add to cart
-#   page.Find('#add-to-cart-button').Click()
-#   // proceed to payment
-#   page.Find('#hlb-ptc-btn-native').Click()
-#
-#   // ReLogin TODO: make DRY
-#   // input form
-#   login(page)
-#   // submit
-#   page.Find('#signInSubmit').Click()
-#
-#   // purchase
-#   // page.FindByName('placeYourOrder1').Click()
-#   page.Screenshot('Ordered.png')
-#   return 'hoge'
