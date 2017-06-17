@@ -1,6 +1,8 @@
+require './initializer'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'active_record'
+require 'webdriver'
 
 ActiveRecord::Base.establish_connection(
   "adapter" => "sqlite3",
@@ -14,12 +16,14 @@ end
 
 ## list orders
 get '/orders' do
-  'Hello'
+  WebDriver.instance.order(4388062367, self.class.production?)
+  
 end
 
 ## execute order
 post '/orders' do
-
+  amazon_product_id = params[:amazon_product_id]
+  WebDriver.instance.order(amazon_product_id)
 end
 
 ## cancel order

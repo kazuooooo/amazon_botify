@@ -7,3 +7,9 @@ gem "activerecord"
 gem "rake"
 gem "sinatra-activerecord"
 gem "sqlite3"
+gem "selenium-webdriver"
+
+group :development do
+  gem "pry"
+  gem "pry-byebug"
+end
