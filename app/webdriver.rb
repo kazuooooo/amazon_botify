@@ -23,7 +23,7 @@ class WebDriver
 
       click('nav-link-accountList')
       login
-      
+
       go_to(PRODUCT_URL + amazon_product_id.to_s)
       click('add-to-cart-button')
       click('hlb-ptc-btn-native')

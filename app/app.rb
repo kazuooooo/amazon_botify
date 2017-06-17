@@ -10,6 +10,10 @@ ActiveRecord::Base.establish_connection(
   "database" => "./amazon_botify.db"
 )
 
+before do
+  @bot = Bot::SlackBot.instance
+end
+
 # order
 class Order < ActiveRecord::Base
 
@@ -17,15 +21,14 @@ end
 
 ## list orders
 get '/orders' do
-  ss = WebDriver.instance.order(4388062367, self.class.production?)
-  Bot::SlackBot.instance.succeed_to_purchase(ss)
-  "so good"
 end
 
 ## execute order
 post '/orders' do
+  @bot.start_order(product)
   amazon_product_id = params[:amazon_product_id]
-  WebDriver.instance.order(amazon_product_id)
+  WebDriver.instance.order(amazon_product_id, self.class.production?)
+  @bot.succeed_to_purchase(ss)
 end
 
 ## cancel order
