@@ -3,7 +3,7 @@ class WebDriver
 
   AMAZON_URL      = 'https://www.amazon.com/'
   PRODUCT_URL     = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
-  DRIVER          = :chrome
+  DRIVER          = :remote
   SCREENSHOT_NAME = 'order.png'
 
   attr_accessor :email, :password, :driver
@@ -11,7 +11,7 @@ class WebDriver
   def initialize
     @email    = ENV['AMAZON_BOT_EMAIL']
     @password = ENV['AMAZON_BOT_PASSWORD']
-    @driver   = Selenium::WebDriver.for DRIVER
+    @driver   = Selenium::WebDriver.for(:remote, url: "http://localhost:8910")
   end
 
   def order(amazon_product_id, exec_order)
@@ -28,8 +28,6 @@ class WebDriver
       login
 
       click('placeYourOrder1') if exec_order
-
-      return screenshot
     ensure
       quit
     end
