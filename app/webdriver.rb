@@ -3,7 +3,6 @@ class WebDriver
 
   AMAZON_URL      = 'https://www.amazon.com/'
   PRODUCT_URL     = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
-  DRIVER          = :remote
   SCREENSHOT_NAME = 'order.png'
 
   attr_accessor :email, :password, :driver
@@ -11,26 +10,37 @@ class WebDriver
   def initialize
     @email    = ENV['AMAZON_BOT_EMAIL']
     @password = ENV['AMAZON_BOT_PASSWORD']
-    @driver   = Selenium::WebDriver.for(:remote, url: "http://localhost:8910")
+    caps      = Selenium::WebDriver::Remote::Capabilities.chrome(
+        chromeOptions:
+            {
+                binary: "/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary",
+                args:   ["--headless"]
+            }
+    )
+
+    @driver = Selenium::WebDriver.for(:chrome, desired_capabilities: caps)
   end
 
   def order(amazon_product_id, exec_order)
-    begin
-      go_to(AMAZON_URL)
+    p 'go_to(AMAZON_URL)'
+    go_to(AMAZON_URL)
 
-      click('nav-link-accountList')
-      login
+    p 'click(\'nav-link-accountList\')'
+    click('nav-link-accountList')
+    login
 
-      go_to(PRODUCT_URL + amazon_product_id.to_s)
-      click('add-to-cart-button')
-      click('hlb-ptc-btn-native')
+    p 'go_to(PRODUCT_URL + amazon_product_id.to_s)'
+    go_to(PRODUCT_URL + amazon_product_id.to_s)
 
-      login
+    p "click('add-to-cart-button')"
+    click('add-to-cart-button')
+    
+    p "click('hlb-ptc-btn-native')"
+    click('hlb-ptc-btn-native')
 
-      click('placeYourOrder1') if exec_order
-    ensure
-      quit
-    end
+    login
+
+    click('placeYourOrder1') if exec_order
   end
 
   private

@@ -9,6 +9,7 @@ gem "sinatra-activerecord"
 gem "sqlite3"
 gem "selenium-webdriver"
 gem "slack-ruby-client"
+gem "cucumber"
 
 group :development do
   gem "pry"
