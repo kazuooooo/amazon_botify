@@ -41,7 +41,7 @@ module AmazonBotify
       product = Product.find_by(name: params[:name])
       # begin
         @bot.post_orders(product) do |product|
-          WebDriver.instance.order(product.amazon_product_id, self.class.production?)
+          WebDriver.new.order(product.amazon_product_id, self.class.production?)
           product.orders.create!(ordered_at: Time.now)
         end
         status 200
