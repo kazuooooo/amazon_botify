@@ -8,17 +8,12 @@ class WebDriver
   attr_accessor :email, :password, :driver
 
   def initialize
+    headless = Headless.new
+    headless.start
+
     @email    = ENV['AMAZON_BOT_EMAIL']
     @password = ENV['AMAZON_BOT_PASSWORD']
-    caps      = Selenium::WebDriver::Remote::Capabilities.chrome(
-        chromeOptions:
-            {
-                binary: "/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary",
-                args:   ["--headless"]
-            }
-    )
-
-    @driver = Selenium::WebDriver.for(:chrome, desired_capabilities: caps)
+    @driver = Selenium::WebDriver.for(:chrome)
   end
 
   def order(amazon_product_id, exec_order)
@@ -34,7 +29,7 @@ class WebDriver
 
     p "click('add-to-cart-button')"
     click('add-to-cart-button')
-    
+
     p "click('hlb-ptc-btn-native')"
     click('hlb-ptc-btn-native')
 
