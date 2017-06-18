@@ -39,18 +39,18 @@ module AmazonBotify
     ## execute order
     post '/orders' do
       product = Product.find_by(name: params[:name])
-      begin
+      # begin
         @bot.post_orders(product) do |product|
           WebDriver.instance.order(product.amazon_product_id, self.class.production?)
           product.orders.create!(ordered_at: Time.now)
         end
         status 200
         body ''
-      rescue => e
-        @bot.fail("#{product.name}の購入", e.message)
-        status 500
-        body "#{e.message}"
-      end
+      # rescue => e
+      #   @bot.fail("#{product.name}の購入", e.message)
+      #   status 500
+      #   body "#{e.message}"
+      # end
     end
 
     ## cancel order
