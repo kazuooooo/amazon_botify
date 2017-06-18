@@ -1,14 +1,13 @@
 class WebDriver
-  include Singleton
 
   AMAZON_URL      = 'https://www.amazon.com/'
   PRODUCT_URL     = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
   SCREENSHOT_NAME = 'order.png'
 
-  attr_accessor :email, :password, :driver
+  attr_accessor :email, :password, :driver, :headless
 
   def initialize
-    headless = Headless.new
+    @headless = Headless.new
     headless.start
 
     @email    = ENV['AMAZON_BOT_EMAIL']
@@ -36,6 +35,9 @@ class WebDriver
     login
 
     click('placeYourOrder1') if exec_order
+
+    screenshot
+    quit
   end
 
   private
@@ -66,6 +68,7 @@ class WebDriver
   end
 
   def quit
+    headless.destroy
     driver.quit
   end
 end
