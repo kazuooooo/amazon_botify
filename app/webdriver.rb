@@ -7,9 +7,6 @@ class WebDriver
   attr_accessor :email, :password, :driver, :headless
 
   def initialize
-    @headless = Headless.new
-    headless.start
-
     @email    = ENV['AMAZON_BOT_EMAIL']
     @password = ENV['AMAZON_BOT_PASSWORD']
     @driver = Selenium::WebDriver.for(:chrome)
@@ -35,7 +32,6 @@ class WebDriver
     login
 
     click('placeYourOrder1') if exec_order
-
     screenshot
     quit
   end
@@ -68,7 +64,6 @@ class WebDriver
   end
 
   def quit
-    headless.destroy
     driver.quit
   end
 end

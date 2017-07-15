@@ -7,15 +7,15 @@ module Bot
   class SlackBot < BotBase
 
     attr_accessor :client
-
+    CHANNEL_NAME = '#equipment-purchase'
     def initialize
       @client = Slack::Web::Client.new
     end
 
     def succeed_to_order(product, *args)
       client.files_upload(
-          channels: '#general',
-          as_user: true,
+          channels: CHANNEL_NAME,
+          as_user: false,
           file: Faraday::UploadIO.new("#{Dir.pwd}/order.png", 'image/png'),
           title: 'order screenshot',
           filename: 'order.jpg',
@@ -23,9 +23,17 @@ module Bot
       )
     end
 
+    def get_product_name(params)
+      params["text"].split(" ")[2]
+    end
+
+    def get_product_id(params)
+      params["text"].split(" ")[3]
+    end
+
     private
     def send_message(message)
-      client.chat_postMessage(channel: '#general', text: message)
+      client.chat_postMessage(channel: CHANNEL_NAME, text: message)
     end
   end
 end

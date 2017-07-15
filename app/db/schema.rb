@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170617095211) do
+ActiveRecord::Schema.define(version: 20170715071009) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "product_id", null: false
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20170617095211) do
 
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "amazon_product_id", limit: 8, null: false
+    t.string "amazon_product_id", limit: 8, null: false
   end
 
 end
