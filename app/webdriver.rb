@@ -3,6 +3,7 @@ class WebDriver
   AMAZON_URL      = 'https://www.amazon.com/'
   PRODUCT_URL     = "https://#{ENV['AMAZON_BOT_DOMAIN']}/dp/"
   SCREENSHOT_NAME = 'order.png'
+  NORMAL_ORDER_RADIO_KLASS = 'a-icon-radio-inactive'
 
   attr_accessor :email, :password, :driver, :headless
 
@@ -13,6 +14,7 @@ class WebDriver
   end
 
   def order(amazon_product_id, exec_order)
+
     p 'go_to(AMAZON_URL)'
     go_to(AMAZON_URL)
 
@@ -22,6 +24,13 @@ class WebDriver
 
     p 'go_to(PRODUCT_URL + amazon_product_id.to_s)'
     go_to(PRODUCT_URL + amazon_product_id.to_s)
+
+    begin
+      click(NORMAL_ORDER_RADIO_KLASS, :class)
+      driver.find_element(:class, NORMAL_ORDER_RADIO_KLASS)
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      # It's ok if radio class element not find
+    end
 
     p "click('add-to-cart-button')"
     click('add-to-cart-button')
@@ -40,16 +49,16 @@ class WebDriver
     driver.navigate.to url
   end
 
-  def find(element_id)
-    driver.find_element(:id, element_id)
+  def find(element, type = :id)
+    driver.find_element(type, element)
   end
 
-  def click(element_id)
-    find(element_id).click
+  def click(element, type = :id)
+    find(element, type).click
   end
 
-  def input(element_id, value)
-    find(element_id).send_keys(value)
+  def input(element, value)
+    find(element).send_keys(value)
   end
 
   def login
