@@ -41,9 +41,9 @@ module AmazonBotify
     post '/orders' do
       begin
         product_name =  @bot.get_product_name(params)
-        product = Product.find_by!(name: product_name)
+        product = Product.find_by!(name: product_name.gsub("\b", "")) #HACKin
         @bot.post_orders(product) do |product|
-          WebDriver.new.order(product.amazon_product_id, self.class.production?)
+          WebDriver.new.order(product.amazon_product_id, true)
           product.orders.create!(ordered_at: Time.now)
         end
         status 200
@@ -95,6 +95,18 @@ module AmazonBotify
         body "#{e.message}"
       end
     end
+
+    #  delete product
+    post '/delete_products' do
+      begin
+        product_name = @bot.get_product_name(params)
+        product = Product.find_by(name: product_name).destroy
+        @bot.delete_product(product)
+        status 200
+      rescue => e
+      end
+    end
+
 
     ## edit product
     put '/products/:id' do

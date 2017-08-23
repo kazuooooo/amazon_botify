@@ -30,8 +30,7 @@ class WebDriver
     click('hlb-ptc-btn-native')
 
     login
-
-    click('placeYourOrder1') if exec_order
+    driver.find_element(:name, 'placeYourOrder1').click if exec_order
     screenshot
     quit
   end

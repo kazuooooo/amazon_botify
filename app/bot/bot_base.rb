@@ -27,6 +27,10 @@ module Bot
       send_message("商品名: #{product.name}, URL: #{product.url} を登録しました")
     end
 
+    def delete_product(product)
+      send_message("商品名: #{product.name}を削除しました")
+    end
+
     def fail(action, error_message)
       send_message("#{action}に失敗しました。 #{error_message}")
     end
@@ -60,6 +64,7 @@ module Bot
       howto = <<~HOWTO
         ・az 追加 商品名 商品ID → 商品追加
         (商品IDは https://www.amazon.co.jp/dp/xxxxx のxxxxxの部分)
+        ・az 削除 商品名 　　　→ 商品削除
         ・az 一覧              → 商品一覧の取得
         ・az 履歴  　          → 注文履歴の取得
         ・az 注文 商品名           → 商品注文
