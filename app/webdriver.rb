@@ -15,12 +15,12 @@ class WebDriver
 
   def order(amazon_product_id, exec_order)
 
-    p 'go_to(AMAZON_URL)'
-    go_to(AMAZON_URL)
+    # p 'go_to(AMAZON_URL)'
+    # go_to(AMAZON_URL)
 
-    p 'click(\'nav-link-accountList\')'
-    click('nav-link-accountList')
-    login
+    # p 'click(\'nav-link-accountList\')'
+    # click('nav-link-accountList')
+    # login
 
     p 'go_to(PRODUCT_URL + amazon_product_id.to_s)'
     go_to(PRODUCT_URL + amazon_product_id.to_s)

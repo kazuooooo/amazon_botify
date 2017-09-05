@@ -43,6 +43,7 @@ module AmazonBotify
         product_name =  @bot.get_product_name(params)
         product = Product.find_by!(name: product_name.gsub("\b", "")) #HACKin
         @bot.post_orders(product) do |product|
+          # WebDriver.new.order(product.amazon_product_id, true) #tmp
           WebDriver.new.order(product.amazon_product_id, true)
           product.orders.create!(ordered_at: Time.now)
         end
