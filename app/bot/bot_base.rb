@@ -24,7 +24,11 @@ module Bot
     end
 
     def post_products(product, *args)
-      send_message("商品名: #{product.name}, ID: #{product.amazon_product_id}で登録しました")
+      send_message("商品名: #{product.name}, URL: #{product.url} を登録しました")
+    end
+
+    def delete_product(product)
+      send_message("商品名: #{product.name}を削除しました")
     end
 
     def fail(action, error_message)
@@ -40,19 +44,33 @@ module Bot
     end
 
     def orders_header
-      "オーダー一覧\n\n"
+      "注文履歴\n\n"
     end
 
     def order_row(order)
-      "#{order.ordered_at.strftime("%Y年%m月%d日 %H:%M")} : #{order.product.name}"
+      # HACK: localのタイムゾーンがうまく取れない
+      "#{(order.ordered_at + Time.now.gmt_offset).strftime("%Y年%m月%d日 %H:%M")} : #{order.product.name}"
     end
 
     def products_header
-      "商品一覧\n\n"
+      "登録商品一覧\n\n"
     end
 
     def product_row(product)
-      "名前: #{product.name} ID: #{product.amazon_product_id}"
+      "名前: #{product.name} URL: #{product.url}"
+    end
+
+    def howto
+      howto = <<~HOWTO
+        ・az 追加 商品名 商品ID → 商品追加
+        (商品IDは https://www.amazon.co.jp/dp/xxxxx のxxxxxの部分)
+        ・az 削除 商品名 　　　→ 商品削除
+        ・az 一覧              → 商品一覧の取得
+        ・az 履歴  　          → 注文履歴の取得
+        ・az 注文 商品名           → 商品注文
+        ・az 使い方               → 使い方
+      HOWTO
+      send_message(howto)
     end
   end
 end

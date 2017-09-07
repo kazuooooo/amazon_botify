@@ -2,3 +2,4 @@ app/vendor/
 app/order.png
 vendor/
 .idea
+.DS_Store
