@@ -92,7 +92,7 @@ If you want to use other messenger, you can do it by creating custom bot class.
 Only You need to implement is send_message method.
 
 ```ruby
-module
+module Bot
   class CustomBot < BotBase
     # required
     def send_message(message)
