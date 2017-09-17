@@ -1,4 +1,3 @@
-require 'pry'
 Slack.configure do |config|
   config.token = ENV['AMAZON_BOT_SLACK_TOKEN']
 end
@@ -7,7 +6,7 @@ module Bot
   class SlackBot < BotBase
 
     attr_accessor :client
-    CHANNEL_NAME = '#equipment-purchase'
+    CHANNEL_NAME = '#amazon_botify'
     def initialize
       @client = Slack::Web::Client.new
     end

@@ -49,7 +49,9 @@ module Bot
 
     def order_row(order)
       # HACK: localのタイムゾーンがうまく取れない
-      "#{(order.ordered_at + Time.now.gmt_offset).strftime("%Y年%m月%d日 %H:%M")} : #{order.product.name}"
+      if order.product
+        "#{(order.ordered_at + Time.now.gmt_offset).strftime("%Y年%m月%d日 %H:%M")} : #{order.product.name}"
+      end
     end
 
     def products_header
