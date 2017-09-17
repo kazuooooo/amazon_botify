@@ -17,7 +17,7 @@ You can make your amazon account a chatbot. Like below!! (Currently Japanse Only
 ![refer_product_list](https://qiita-image-store.s3.amazonaws.com/0/71154/daa74fd9-807e-5253-5c83-a89bac5cc28f.png
  "refer_product_list")
 
-* Order Product
+* Order Product(return confirmation screeen shot)
 ![order_product](https://qiita-image-store.s3.amazonaws.com/0/71154/d21f2951-40e0-bf57-641c-c2f8f6a1b062.png
  "order_product")
  
@@ -35,9 +35,10 @@ You can make your amazon account a chatbot. Like below!! (Currently Japanse Only
 * Some Messenger Accont(Now Available Only [Slack](https://www.google.co.jp/search?q=slack&hl=en&lr=lang_en))
 * [ngrok](https://ngrok.com/)
 
-### GettingStarted
-System structure is below
 
+## GettingStarted
+System structure is below
+![system.png](https://qiita-image-store.s3.amazonaws.com/0/71154/f9cbefc6-2e2e-0469-2f27-758706f3ce32.png)
 
 First, bundle install and setup database
 ```sh
