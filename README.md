@@ -1,6 +1,6 @@
 # AmazonBotify
 
-You can make your amazon account a chatbot. Like below!! (Currently Japanse Only. Welcome to PR :))
+Make your amazon account a useful chatbot like below!! (Currently Japanse Only. Welcome to PR :))
 
 * Howto use
 ![howto](https://qiita-image-store.s3.amazonaws.com/0/71154/bf96e6c1-88d2-4090-7993-d201b74a839f.png "howto")
